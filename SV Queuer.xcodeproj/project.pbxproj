@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		386EA6951FFCFF9500BC761A /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EA6941FFCFF9500BC761A /* Api.swift */; };
+		386EA6971FFD142C00BC761A /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EA6961FFD142C00BC761A /* AppSettings.swift */; };
 		4931A7611FEC11C10095EFEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4931A7601FEC11C10095EFEA /* AppDelegate.swift */; };
 		4931A7631FEC11C10095EFEA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4931A7621FEC11C10095EFEA /* ViewController.swift */; };
 		4931A7661FEC11C10095EFEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4931A7641FEC11C10095EFEA /* Main.storyboard */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		386EA6941FFCFF9500BC761A /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
+		386EA6961FFD142C00BC761A /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		4931A75D1FEC11C10095EFEA /* SV Queuer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SV Queuer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4931A7601FEC11C10095EFEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4931A7621FEC11C10095EFEA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 				4931A7801FEC18090095EFEA /* LoginViewController.swift */,
 				4931A7821FEC18190095EFEA /* ProjectsViewController.swift */,
 				4931A7841FEC18380095EFEA /* ProjectViewController.swift */,
+				386EA6941FFCFF9500BC761A /* Api.swift */,
+				386EA6961FFD142C00BC761A /* AppSettings.swift */,
 			);
 			path = "SV Queuer";
 			sourceTree = "<group>";
@@ -210,7 +216,9 @@
 			files = (
 				4931A7851FEC18380095EFEA /* ProjectViewController.swift in Sources */,
 				4931A7831FEC18190095EFEA /* ProjectsViewController.swift in Sources */,
+				386EA6971FFD142C00BC761A /* AppSettings.swift in Sources */,
 				4931A7811FEC18090095EFEA /* LoginViewController.swift in Sources */,
+				386EA6951FFCFF9500BC761A /* Api.swift in Sources */,
 				4931A7631FEC11C10095EFEA /* ViewController.swift in Sources */,
 				4931A7611FEC11C10095EFEA /* AppDelegate.swift in Sources */,
 			);
@@ -366,10 +374,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2RAXN4MKTE;
+				DEVELOPMENT_TEAM = KABG686M26;
 				INFOPLIST_FILE = "SV Queuer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.siliconvillas.SV-Queuer";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.efailla.SV-Queuer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -381,10 +389,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2RAXN4MKTE;
+				DEVELOPMENT_TEAM = KABG686M26;
 				INFOPLIST_FILE = "SV Queuer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.siliconvillas.SV-Queuer";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.efailla.SV-Queuer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

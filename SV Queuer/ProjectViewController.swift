@@ -1,43 +1,27 @@
 import UIKit
 
 class ProjectViewController: UIViewController , UITableViewDataSource, UITableViewDelegate{
-
+    
+    @IBOutlet weak var tableView: UITableView!
     var project: Dictionary<String, AnyObject?>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let red = CGFloat((0x31e1a3 & 0xFF0000) >> 16)/256.0
-        let green = CGFloat((0x31e1a3 & 0xFF00) >> 8)/256.0
-        let blue = CGFloat(0x31e1a3 & 0xFF)/256.0
+        navigationItem.rightBarButtonItem=UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask))
         tableView.dataSource = self
         tableView.delegate = self
-        
-        title = "Tasks"
-        navigationController?.navigationBar.barTintColor = UIColor(red:red, green:green, blue:blue, alpha:1.0)
-        var request = URLRequest(url: URL(string: AppDelegate.PROJECTS_URL + "/" + String(self.project!["id"]! as! Int) )!)
-        request.addValue("application/json", forHTTPHeaderField: "Content-type")
-        request.addValue(UserDefaults.standard.string(forKey: "apiKey")!, forHTTPHeaderField: "X-Qer-Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
-            DispatchQueue.main.async{
-                if let error = optError {
-                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
-                }
-                if let jsonData = data {
-                    self.project = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? Dictionary<String, AnyObject?>
-                    self.tableView.reloadData()
-                    //                        }catch let jsonError as NSError {
-                    //
-                    //                        }
-                }else{
-                    
-                }
-            }
-        }).resume()
-        navigationItem.rightBarButtonItem=UIBarButtonItem(barButtonSystemItem: .add, target: self, action: Selector("addTask"))
-        // Do any additional setup after loading the view.
     }
-
-    @IBOutlet weak var tableView: UITableView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let request = Api.getProjects(projectId: self.project!["id"]! as? Int)
+        self.handleGetProject(request)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        title = "Tasks"
+        navigationController?.navigationBar.barTintColor = AppSettings.PROJECT_NAVBAR_COLOR
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -48,39 +32,16 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
         
         vc.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
             vc.dismiss(animated: true, completion: nil)
-            var request = URLRequest(url: URL(string: AppDelegate.PROJECTS_URL + "/" + String(self.project!["id"]! as! Int) + "/tasks")!)
-            request.httpBody = try? JSONSerialization.data(withJSONObject: ["task" : ["name": vc.textFields![0].text as? AnyObject]], options: .prettyPrinted)
-            request.addValue("application/json", forHTTPHeaderField: "Content-type")
-            request.httpMethod="POST"
-            request.addValue(UserDefaults.standard.string(forKey: "apiKey")!, forHTTPHeaderField: "X-Qer-Authorization")
-            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            
+            let request = Api.addTask(projectId: self.project!["id"]! as! Int, taskName: vc.textFields![0].text!)
             URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
                 DispatchQueue.main.async{
                     if let error = optError
                     {
                         UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
                     }
-                    var request = URLRequest(url: URL(string: AppDelegate.PROJECTS_URL + "/" + String(self.project!["id"]! as! Int) )!)
-                    request.addValue("application/json", forHTTPHeaderField: "Content-type")
-                    request.addValue(UserDefaults.standard.string(forKey: "apiKey")!, forHTTPHeaderField: "X-Qer-Authorization")
-                    request.addValue("application/json", forHTTPHeaderField: "Accept")
-                    URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
-                        DispatchQueue.main.async{
-                            if let error = optError {
-                                UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
-                            }
-                            if let jsonData = data {
-                                let json = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)
-                                self.project = json as! Dictionary<String, AnyObject?>
-                                self.tableView.reloadData()
-                                //                        }catch let jsonError as NSError {
-                                //
-                                //                        }
-                            }else{
-                                
-                            }
-                        }
-                    }).resume()
+                    let request = Api.getProjects(projectId: self.project!["id"]! as? Int)
+                    self.handleGetProject(request)
                 }
             }).resume()
         }))
@@ -95,21 +56,13 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
         present(vc, animated: true, completion: nil)
     }
     
+    /**  UITABLEVIEW HANDLERS  **/
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let c = tableView.dequeueReusableCell(withIdentifier: "task")
         c?.textLabel?.text = ((project!["tasks"])! as! Array<Dictionary<String, AnyObject?>>)[indexPath.row]["name"]! as? String
         return c!
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let count = project!["tasks"]??.count {
             return count
@@ -119,5 +72,55 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
             return 0;
         }
     }
-
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let selectedProjectId : Int = project!["id"] as! Int
+            let selectedTask = ((project!["tasks"])! as! Array<Dictionary<String, AnyObject?>>)[indexPath.row]
+            let selectedTaskId : Int = selectedTask["id"] as! Int
+            let deleteRequest = Api.deleteTask(projectId: selectedProjectId, taskId: selectedTaskId)
+            self.handleDeleteTask(deleteRequest)
+        }
+    }
+    
+    /** API HANDLERS **/
+    func handleGetProject(_ request: URLRequest){
+        URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
+            DispatchQueue.main.async{
+                if let error = optError {
+                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+                }
+                if let jsonData = data {
+                    self.project = nil
+                    let json = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)
+                    self.project = json as? Dictionary<String, AnyObject?>
+                    self.tableView.reloadData()
+                }else{
+                    
+                }
+            }
+        }).resume()
+    }
+    
+    func handleDeleteTask(_ request: URLRequest){
+        URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
+            DispatchQueue.main.async{
+                if let error = optError
+                {
+                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+                }
+                else{
+                    let projectRequest = Api.getProjects(projectId: self.project!["id"]! as? Int)
+                    self.handleGetProject(projectRequest)
+                    UIAlertView(title: "Result", message: "The task has been deleted.", delegate: nil, cancelButtonTitle: ":)").show()
+                    self.tableView.reloadData()
+                }
+            }
+        }).resume()
+    }
+    
 }

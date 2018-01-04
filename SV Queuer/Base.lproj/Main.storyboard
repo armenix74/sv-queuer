@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,7 +27,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="210" y="-24"/>
+            <point key="canvasLocation" x="-801" y="753"/>
         </scene>
         <!--Projects View Controller-->
         <scene sceneID="XBa-pR-JBb">
@@ -65,11 +65,12 @@
                     <connections>
                         <outlet property="tableView" destination="l2G-rn-Ypw" id="3tl-hd-yRt"/>
                         <segue destination="bcD-bz-RtF" kind="show" identifier="viewproject" id="A02-up-6gf"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="logout" id="K72-FL-e3K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IWP-bL-a9g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2376.8000000000002" y="26.53673163418291"/>
+            <point key="canvasLocation" x="1529" y="608"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WNk-c9-b0v">
@@ -85,7 +86,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e0B-qh-vaG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1657" y="27"/>
+            <point key="canvasLocation" x="1530" y="-169"/>
         </scene>
         <!--Project View Controller-->
         <scene sceneID="uyx-Rm-CEw">
@@ -125,7 +126,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KQ7-80-gmv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3077.5999999999999" y="26.53673163418291"/>
+            <point key="canvasLocation" x="2361" y="608"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="KI6-NO-7im">
@@ -169,14 +170,14 @@
                         <viewLayoutGuide key="safeArea" id="LSb-Ot-W86"/>
                     </view>
                     <connections>
-                        <outlet property="password_field" destination="7M5-gO-xFz" id="Pt2-gc-7AB"/>
-                        <outlet property="usernameFiedl" destination="nfc-Fk-tEA" id="zIq-Xa-dgm"/>
+                        <outlet property="passwordField" destination="7M5-gO-xFz" id="Pt2-gc-7AB"/>
+                        <outlet property="usernameField" destination="nfc-Fk-tEA" id="zIq-Xa-dgm"/>
                         <segue destination="PIR-cn-by4" kind="presentation" identifier="projects" id="h6n-PT-6ZC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNC-Sl-w3v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="892" y="514"/>
+            <point key="canvasLocation" x="212" y="-170"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
