@@ -7,7 +7,7 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem=UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask))
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -24,7 +24,6 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @objc func addTask() {
@@ -34,16 +33,7 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
             vc.dismiss(animated: true, completion: nil)
             
             let request = Api.addTask(projectId: self.project!["id"]! as! Int, taskName: vc.textFields![0].text!)
-            URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
-                DispatchQueue.main.async{
-                    if let error = optError
-                    {
-                        UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
-                    }
-                    let request = Api.getProjects(projectId: self.project!["id"]! as? Int)
-                    self.handleGetProject(request)
-                }
-            }).resume()
+            self.handleAddTask(request)
         }))
         
         vc.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
@@ -64,11 +54,9 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = project!["tasks"]??.count {
+        if let _ = project, let count = project!["tasks"]??.count {
             return count
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
@@ -89,10 +77,15 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
     
     /** API HANDLERS **/
     func handleGetProject(_ request: URLRequest){
+        self.project = nil
+        self.tableView.reloadData()
+        self.view.makeToastActivity(.center)
         URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
             DispatchQueue.main.async{
+                self.view.hideToastActivity()
                 if let error = optError {
-                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+                    let message = error.localizedDescription + "\nMaybe check your internet?"
+                    self.view.makeToast(message, duration: 3.0, position: .center)
                 }
                 if let jsonData = data {
                     self.project = nil
@@ -106,19 +99,37 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
         }).resume()
     }
     
-    func handleDeleteTask(_ request: URLRequest){
+    func handleAddTask(_ request: URLRequest){
+        self.view.makeToastActivity(.center)
         URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
             DispatchQueue.main.async{
-                if let error = optError
-                {
-                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+                self.view.hideToastActivity()
+                if let error = optError {
+                    let message = error.localizedDescription + "\nMaybe check your internet?"
+                    self.view.makeToast(message, duration: 3.0, position: .center)
+                }
+                let request = Api.getProjects(projectId: self.project!["id"]! as? Int)
+                self.handleGetProject(request)
+            }
+        }).resume()
+    }
+    
+    func handleDeleteTask(_ request: URLRequest){
+        self.view.makeToastActivity(.center)
+        URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
+            DispatchQueue.main.async{
+                self.view.hideToastActivity()
+                var message = ""
+                if let error = optError {
+                    message = error.localizedDescription + "\nMaybe check your internet?"
                 }
                 else{
                     let projectRequest = Api.getProjects(projectId: self.project!["id"]! as? Int)
                     self.handleGetProject(projectRequest)
-                    UIAlertView(title: "Result", message: "The task has been deleted.", delegate: nil, cancelButtonTitle: ":)").show()
+                    message = "The task has been deleted."
                     self.tableView.reloadData()
                 }
+                self.view.makeToast(message, duration: 3.0, position: .center)
             }
         }).resume()
     }

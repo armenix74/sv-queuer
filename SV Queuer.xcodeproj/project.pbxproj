@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		386EA6951FFCFF9500BC761A /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EA6941FFCFF9500BC761A /* Api.swift */; };
 		386EA6971FFD142C00BC761A /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EA6961FFD142C00BC761A /* AppSettings.swift */; };
+		388A0BB61FFE324C006A1698 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A0BB51FFE324B006A1698 /* Toast.swift */; };
 		4931A7611FEC11C10095EFEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4931A7601FEC11C10095EFEA /* AppDelegate.swift */; };
 		4931A7631FEC11C10095EFEA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4931A7621FEC11C10095EFEA /* ViewController.swift */; };
 		4931A7661FEC11C10095EFEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4931A7641FEC11C10095EFEA /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 /* Begin PBXFileReference section */
 		386EA6941FFCFF9500BC761A /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		386EA6961FFD142C00BC761A /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		388A0BB51FFE324B006A1698 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		4931A75D1FEC11C10095EFEA /* SV Queuer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SV Queuer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4931A7601FEC11C10095EFEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4931A7621FEC11C10095EFEA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				4931A7821FEC18190095EFEA /* ProjectsViewController.swift */,
 				4931A7841FEC18380095EFEA /* ProjectViewController.swift */,
 				386EA6941FFCFF9500BC761A /* Api.swift */,
+				388A0BB51FFE324B006A1698 /* Toast.swift */,
 				386EA6961FFD142C00BC761A /* AppSettings.swift */,
 			);
 			path = "SV Queuer";
@@ -215,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4931A7851FEC18380095EFEA /* ProjectViewController.swift in Sources */,
+				388A0BB61FFE324C006A1698 /* Toast.swift in Sources */,
 				4931A7831FEC18190095EFEA /* ProjectsViewController.swift in Sources */,
 				386EA6971FFD142C00BC761A /* AppSettings.swift in Sources */,
 				4931A7811FEC18090095EFEA /* LoginViewController.swift in Sources */,

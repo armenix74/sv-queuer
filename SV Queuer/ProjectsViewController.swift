@@ -16,6 +16,9 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.projects = nil
+        self.tableView.reloadData()
+        
         let request = Api.getProjects()
         self.handleGetProjects(request)
     }
@@ -27,7 +30,6 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @objc func promptProjCreate() {
@@ -110,28 +112,34 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     /** API HANDLERS **/
     func handleGetProjects(_ request: URLRequest){
+        self.view.makeToastActivity(.center)
         URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
             DispatchQueue.main.async{
+                self.view.hideToastActivity()
                 if let error = optError {
-                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+                    let message = error.localizedDescription + "\nMaybe check your internet?"
+                    self.view.makeToast(message, duration: 3.0, position: .center)
                 }
                 if let jsonData = data {
                     self.projects = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? Array<Dictionary<String, AnyObject?>>
                     self.selProj = nil
                     self.tableView.reloadData()
-                }else{
-                    
+                } else {
+                    let message = "No data found"
+                    self.view.makeToast(message, duration: 3.0, position: .center)
                 }
             }
         }).resume()
     }
     
     func handleAddProject(_ request: URLRequest){
+        self.view.makeToastActivity(.center)
         URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
             DispatchQueue.main.async{
-                if let error = optError
-                {
-                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+                self.view.hideToastActivity()
+                if let error = optError {
+                    let message = error.localizedDescription + "\nMaybe check your internet?"
+                    self.view.makeToast(message, duration: 3.0, position: .center)
                 }
                 let projectRequest = Api.getProjects()
                 self.handleGetProjects(projectRequest)
@@ -140,17 +148,19 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func handleDeleteProject(_ request: URLRequest){
+        self.view.makeToastActivity(.center)
         URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
             DispatchQueue.main.async{
-                if let error = optError
-                {
-                    UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
-                }
-                else{
+                self.view.hideToastActivity()
+                var message = ""
+                if let error = optError {
+                    message = error.localizedDescription + "\nMaybe check your internet?"
+                } else {
                     let projectRequest = Api.getProjects()
                     self.handleGetProjects(projectRequest)
-                    UIAlertView(title: "Result", message: "The project has been deleted.", delegate: nil, cancelButtonTitle: ":(").show()
+                    message =  "The project has been deleted."
                 }
+                self.view.makeToast(message, duration: 3.0, position: .center)
             }
         }).resume()
     }

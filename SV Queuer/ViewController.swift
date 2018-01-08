@@ -7,14 +7,13 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if UserDefaults.standard.string(forKey: "apiKey") != nil
-        {
+        if UserDefaults.standard.string(forKey: "apiKey") != nil {
             print (UserDefaults.standard.string(forKey: "apiKey"))
             performSegue(withIdentifier: "projects", sender: self)
+        } else {
+            performSegue(withIdentifier: "login", sender: self)
+            
         }
-        else
-        {
-            performSegue(withIdentifier: "login", sender: self)}
     }
     
     override func didReceiveMemoryWarning() {
