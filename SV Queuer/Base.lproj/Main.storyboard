@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,10 +29,10 @@
             </objects>
             <point key="canvasLocation" x="210" y="-24"/>
         </scene>
-        <!--Projects View Controller-->
+        <!--Project View Controller-->
         <scene sceneID="XBa-pR-JBb">
             <objects>
-                <viewController id="CYe-ih-8Zj" customClass="ProjectsViewController" customModule="SV_Queuer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="CYe-ih-8Zj" customClass="ProjectViewController" customModule="SV_Queuer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zRE-Uy-Ny1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,10 +87,10 @@
             </objects>
             <point key="canvasLocation" x="1657" y="27"/>
         </scene>
-        <!--Project View Controller-->
+        <!--Task View Controller-->
         <scene sceneID="uyx-Rm-CEw">
             <objects>
-                <viewController id="bcD-bz-RtF" customClass="ProjectViewController" customModule="SV_Queuer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bcD-bz-RtF" customClass="TaskViewController" customModule="SV_Queuer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YfH-QQ-Ue9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -169,8 +169,8 @@
                         <viewLayoutGuide key="safeArea" id="LSb-Ot-W86"/>
                     </view>
                     <connections>
-                        <outlet property="password_field" destination="7M5-gO-xFz" id="Pt2-gc-7AB"/>
-                        <outlet property="usernameFiedl" destination="nfc-Fk-tEA" id="zIq-Xa-dgm"/>
+                        <outlet property="passwordField" destination="7M5-gO-xFz" id="Pt2-gc-7AB"/>
+                        <outlet property="usernameField" destination="nfc-Fk-tEA" id="zIq-Xa-dgm"/>
                         <segue destination="PIR-cn-by4" kind="presentation" identifier="projects" id="h6n-PT-6ZC"/>
                     </connections>
                 </viewController>
