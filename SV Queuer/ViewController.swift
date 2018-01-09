@@ -7,7 +7,6 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UserDefaults.standard.set(nil, forKey: "apiKey")
         if UserDefaults.standard.string(forKey: "apiKey") != nil {
             performSegue(withIdentifier: "projects", sender: self)
         } else {
