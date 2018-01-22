@@ -1,54 +1,49 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    @IBOutlet weak var usernameFiedl: UITextField!
-    @IBOutlet weak var password_field: UITextField!
+  @IBOutlet weak var usernameField: UITextField!
+  @IBOutlet weak var passwordField: UITextField!
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+  
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+  }
+  
+  @IBAction func loginpressed(_ sender: Any) {
+//    var request = URLRequest(url: URL(string: AppDelegate.SESSION_URL)!)
+//    request.addValue(AppDelegate.HEADER_CONTENT_TYPE, forHTTPHeaderField: "Content-type")
+//    request.addValue(AppDelegate.HEADER_ACCEPT, forHTTPHeaderField: "Accept")
+//    request.addValue(UserDefaults.standard.string(forKey: "apiKey")!, forHTTPHeaderField: "X-Qer-Authorization")
+//
+    var request = Utils.prepareURLRequest(AppDelegate.SESSION_URL)
+    request.httpMethod = "POST"
+    request.httpBody = try? JSONSerialization.data(withJSONObject: ["username": usernameField.text, "password": passwordField.text], options: .prettyPrinted)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func loginpressed(_ sender: Any) {
-        var request = URLRequest(url: URL(string: "https://queuer-production.herokuapp.com/api/v1/session")!)
-        request.httpMethod = "POST"
-        request.httpBody = try? JSONSerialization.data(withJSONObject: ["username": usernameFiedl.text, "password": password_field.text], options: .prettyPrinted)
-        request.addValue("application/json", forHTTPHeaderField: "Content-type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
-            DispatchQueue.main.async{
-                    if let error = optError {
-                        UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
-                    }
-                        if let code = (response as? HTTPURLResponse)?.statusCode {
-                        if let jsonData = data {
-                            do {
-                                let dict = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? NSDictionary
-                                UserDefaults.standard.set(dict?["api_key"], forKey: "apiKey")
-                                self.performSegue(withIdentifier: "projects", sender: self)
-                            }catch let jsonError as NSError {
-                                
-                            }
-                        }else{
-                            }
-                }
+    URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
+      DispatchQueue.main.async {
+        if let error = optError {
+          let alert = UIAlertController(title: "Ruh roh",
+                                        message: error.localizedDescription + "\nMaybe check your internet?",
+                                        preferredStyle: .alert)
+          let action = UIAlertAction(title: "OK", style: .default) { _ in }
+          alert.addAction(action)
+          self.present(alert, animated: true){}
+        }
+        if ((response as? HTTPURLResponse)?.statusCode) != nil {
+          if let jsonData = data {
+            do {
+              let dict = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? NSDictionary
+              UserDefaults.standard.set(dict?["api_key"], forKey: "apiKey")
+              self.performSegue(withIdentifier: "projects", sender: self)
+            } catch let jsonError as NSError {
+              print("error", jsonError)
             }
-        }).resume()
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+          }
+        }
+      }
+    }).resume()
+  }
 }
