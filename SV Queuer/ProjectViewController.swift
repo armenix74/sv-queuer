@@ -19,7 +19,8 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
     URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
       DispatchQueue.main.async {
         if let error = optError {
-          UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+          let alert = Utils.prepareUIAlert(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?")
+          self.present(alert, animated: true){}
         }
         if let jsonData = data {
           self.project = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? Dictionary<String, AnyObject?>
@@ -28,13 +29,11 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
       }
     }).resume()
     navigationItem.rightBarButtonItem=UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ProjectViewController.addTask))
-    // Do any additional setup after loading the view.
   }
   
   @IBOutlet weak var tableView: UITableView!
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
   
   @objc func addTask() {
@@ -51,24 +50,18 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
       URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
         DispatchQueue.main.async {
           if let error = optError {
-            UIAlertView(title: "Ruh roh",
-                        message: error.localizedDescription + "\nMaybe check your internet?",
-                        delegate: nil,
-                        cancelButtonTitle: ":("
-              ).show()
+            let alert = Utils.prepareUIAlert(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?")
+            self.present(alert, animated: true){}
           }
           
           let url = AppDelegate.PROJECTS_URL + "/" + String(self.project!["id"]! as! Int)
           let request = Utils.prepareURLRequest(url)
-
+          
           URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
             DispatchQueue.main.async {
               if let error = optError {
-                UIAlertView(title: "Ruh roh",
-                            message: error.localizedDescription + "\nMaybe check your internet?",
-                            delegate: nil,
-                            cancelButtonTitle: ":("
-                  ).show()
+                let alert = Utils.prepareUIAlert(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?")
+                self.present(alert, animated: true){}
               }
               if let jsonData = data {
                 let json = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)
@@ -83,8 +76,7 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
     
     vc.addAction( UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
       vc.dismiss(animated: true, completion: nil)
-    }
-    ))
+    }))
     vc.addTextField { (textfield) in
       textfield.placeholder = "Name"
     }
@@ -101,9 +93,8 @@ class ProjectViewController: UIViewController , UITableViewDataSource, UITableVi
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if let count = project!["tasks"]??.count {
       return count
-    }
-    else {
-      return 0;
+    } else {
+      return 0
     }
   }
 }

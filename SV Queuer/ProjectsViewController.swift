@@ -16,7 +16,8 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
       DispatchQueue.main.async{
         if let error = optError {
-          UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+          let alert = Utils.prepareUIAlert(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?")
+          self.present(alert, animated: true){}
         }
         if let jsonData = data {
           self.projects = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? Array<Dictionary<String, AnyObject?>>
@@ -43,19 +44,17 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
       URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
         DispatchQueue.main.async {
           if let error = optError {
-            UIAlertView(title: "Ruh roh",
-                        message: error.localizedDescription + "\nMaybe check your internet?",
-                        delegate: nil,
-                        cancelButtonTitle: ":("
-              ).show()
+            let alert = Utils.prepareUIAlert(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?")
+            self.present(alert, animated: true){}
           }
-      
+          
           let request = Utils.prepareURLRequest(AppDelegate.PROJECTS_URL)
           
           URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data, response, optError) in
             DispatchQueue.main.async {
               if let error = optError {
-                UIAlertView(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?", delegate: nil, cancelButtonTitle: ":(").show()
+                let alert = Utils.prepareUIAlert(title: "Ruh roh", message: error.localizedDescription + "\nMaybe check your internet?")
+                self.present(alert, animated: true){}
               }
               if let jsonData = data {
                 self.projects = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? Array<Dictionary<String, AnyObject?>>
@@ -84,29 +83,26 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "project")
     cell?.textLabel?.text = (projects![indexPath.row])["name"]! as? String
-    return cell!;
+    return cell!
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let vC = segue.destination as? ProjectViewController {
-      vC.project = selProj;
+      vC.project = selProj
     }
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if let count = projects?.count {
       return count
-    }
-    else {
-      return 0;
+    } else {
+      return 0
     }
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    selProj = projects![indexPath.row];
+    selProj = projects![indexPath.row]
     tableView.deselectRow(at: indexPath, animated: true)
     performSegue(withIdentifier: "viewproject", sender: self)
-  }
-  
-  
+  }  
 }
